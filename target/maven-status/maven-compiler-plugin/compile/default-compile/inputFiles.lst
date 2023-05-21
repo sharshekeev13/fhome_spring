@@ -1,8 +1,11 @@
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\config\ThymeleafTemplateConfig.java
+C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\config\CloudinaryConfig.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\domain\entity\Favourites.java
+C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\service\FileUploadService.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\service\impl\ReviewsServiceImpl.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\domain\entity\Category.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\domain\enums\Role.java
+C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\service\impl\FileUploadServiceImpl.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\service\UserService.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\service\CategoryService.java
 C:\Users\sharshekeev\IdeaProjects\fhome\src\main\java\com\example\fhome\controller\CategoryController.java

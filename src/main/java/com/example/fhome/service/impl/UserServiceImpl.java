@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -24,10 +26,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final EmailVerificationServiceImpl emailVerificationService;
+    private final FileUploadServiceImpl fileUploadService;
 
-    UserServiceImpl(UserRepository userRepository, EmailVerificationServiceImpl emailVerificationService){
+
+    UserServiceImpl(UserRepository userRepository, EmailVerificationServiceImpl emailVerificationService, FileUploadServiceImpl fileUploadService){
         this.userRepository = userRepository;
         this.emailVerificationService = emailVerificationService;
+        this.fileUploadService = fileUploadService;
     }
 
 
@@ -45,7 +50,7 @@ public class UserServiceImpl implements UserService {
         User newUser = User.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .photo("123")
+                .photo(getPhotoUrl(user.getPhoto()))
                 .fullName(user.getFullName())
                 .birthday(birthday)
                 .role(Role.USER)
@@ -57,6 +62,16 @@ public class UserServiceImpl implements UserService {
                 .build();
         sendVerifyCode(newUser);
         return userRepository.save(newUser);
+    }
+
+    private String getPhotoUrl(MultipartFile photo) {
+        String photoUrl;
+        try {
+            photoUrl = fileUploadService.uploadFile(photo);
+        } catch (IOException e) {
+            throw new ApiRequestException("Can Not Upload a Image");
+        }
+        return photoUrl;
     }
 
     private void sendVerifyCode(User user){

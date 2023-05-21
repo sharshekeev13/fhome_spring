@@ -11,13 +11,13 @@ import com.example.fhome.repository.CategoryRepository;
 import com.example.fhome.repository.ProductRepository;
 import com.example.fhome.repository.UserRepository;
 import com.example.fhome.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +28,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final FileUploadServiceImpl fileUploadService;
 
-    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, CategoryRepository categoryRepository, FileUploadServiceImpl fileUploadService) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.fileUploadService = fileUploadService;
     }
 
     @Override
@@ -84,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
                 .createdDate(LocalDate.now())
                 .status(Status.AWAIT)
                 .review((double) 0)
-                .photo("https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80")
+                .photo(getPhotoUrl(productCreateDto.getPhoto()))
                 .build();
         return productRepository.save(product);
     }
@@ -105,14 +108,23 @@ public class ProductServiceImpl implements ProductService {
             Category category = checkCategory(productUpdateDto.getCategoryId());
             product.setCategory(category);
         }
-        //TODO CLOUDINARY
         if(productUpdateDto.getPhoto() != null){
-
+            product.setPhoto(getPhotoUrl(productUpdateDto.getPhoto()));
         }
         if(productUpdateDto.getStatus() != null){
             product.setStatus(productUpdateDto.getStatus());
         }
         return productRepository.save(product);
+    }
+
+    private String getPhotoUrl(MultipartFile photo) {
+        String photoUrl;
+        try {
+            photoUrl = fileUploadService.uploadFile(photo);
+        } catch (IOException e) {
+            throw new ApiRequestException("Can Not Upload a Image");
+        }
+        return photoUrl;
     }
 
 
@@ -123,4 +135,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return category;
     }
+
+
 }

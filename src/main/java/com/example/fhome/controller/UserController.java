@@ -8,10 +8,13 @@ import com.example.fhome.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 
 @Tag(name = "USERS", description = "Конечные точки для работы с пользователями")
@@ -24,8 +27,8 @@ public class UserController {
 
 
     @Operation(summary = "Регистрация пользователя")
-    @PostMapping("/registration")
-    public ResponseEntity<User> userRegistration(@RequestBody UserRegistrationDto userRegistrationDto){
+    @RequestMapping(path = "registration",method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<User> userRegistration(@ModelAttribute UserRegistrationDto userRegistrationDto){
         return ResponseEntity.ok(userService.registration(userRegistrationDto));
     }
 
