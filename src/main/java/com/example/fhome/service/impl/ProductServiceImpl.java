@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAll(Integer pageNo, Long reqCategory) {
         if(reqCategory == 0){
             Pageable paging = PageRequest.of(pageNo,20);
-            Page<Product> pagedResult = productRepository.findAll(paging);
+            Page<Product> pagedResult = productRepository.findAllByStatus(Status.CONFIRM,paging);
             if(pagedResult.hasContent()) {
                 return pagedResult.getContent();
             }else{
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
         }else{
             Pageable paging = PageRequest.of(pageNo,20);
             Category category = checkCategory(reqCategory);
-            List<Product> pagedResult = productRepository.findAllByCategory(category,paging);
+            List<Product> pagedResult = productRepository.findAllByCategoryAndStatus(category,Status.CONFIRM,paging);
             if(!pagedResult.isEmpty()) {
                 return pagedResult;
             }else{

@@ -2,11 +2,13 @@ package com.example.fhome.service.impl;
 
 import com.example.fhome.domain.dto.request.UserLoginDto;
 import com.example.fhome.domain.dto.request.UserRegistrationDto;
+import com.example.fhome.domain.entity.Product;
 import com.example.fhome.domain.entity.User;
 import com.example.fhome.domain.enums.Role;
 import com.example.fhome.domain.enums.Status;
 import com.example.fhome.domain.helper_pojo.Mail;
 import com.example.fhome.exception.ApiRequestException;
+import com.example.fhome.repository.ProductRepository;
 import com.example.fhome.repository.UserRepository;
 import com.example.fhome.service.UserService;
 import org.springframework.data.domain.Page;
@@ -25,12 +27,14 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final EmailVerificationServiceImpl emailVerificationService;
     private final FileUploadServiceImpl fileUploadService;
 
 
-    UserServiceImpl(UserRepository userRepository, EmailVerificationServiceImpl emailVerificationService, FileUploadServiceImpl fileUploadService){
+    UserServiceImpl(UserRepository userRepository, ProductRepository productRepository, EmailVerificationServiceImpl emailVerificationService, FileUploadServiceImpl fileUploadService){
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.emailVerificationService = emailVerificationService;
         this.fileUploadService = fileUploadService;
     }
@@ -138,4 +142,12 @@ public class UserServiceImpl implements UserService {
         user.setStatus(newStatus);
         return userRepository.save(user);
     }
+
+    @Override
+    public List<Product> getUserProduct(Long id) {
+        User user = getUserById(id);
+        return productRepository.findByUser(user);
+    }
+
+
 }

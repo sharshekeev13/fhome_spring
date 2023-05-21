@@ -2,6 +2,7 @@ package com.example.fhome.service;
 
 import com.example.fhome.domain.dto.request.UserLoginDto;
 import com.example.fhome.domain.dto.request.UserRegistrationDto;
+import com.example.fhome.domain.entity.Product;
 import com.example.fhome.domain.entity.User;
 import com.example.fhome.domain.enums.Status;
 
@@ -20,4 +21,5 @@ public interface UserService {
 
     User updateUserInfo(Long userId,Integer status);
 
+    List<Product> getUserProduct(Long id);
 }

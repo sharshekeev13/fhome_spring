@@ -2,6 +2,7 @@ package com.example.fhome.controller;
 
 import com.example.fhome.domain.dto.request.UserLoginDto;
 import com.example.fhome.domain.dto.request.UserRegistrationDto;
+import com.example.fhome.domain.entity.Product;
 import com.example.fhome.domain.entity.User;
 import com.example.fhome.domain.enums.Status;
 import com.example.fhome.service.impl.UserServiceImpl;
@@ -64,5 +65,11 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserInfo(id,status));
     }
 
+
+    @Operation(summary = "Список продуктов пользователя")
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<Product>> getUserProducts(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUserProduct(id));
+    }
 
 }
