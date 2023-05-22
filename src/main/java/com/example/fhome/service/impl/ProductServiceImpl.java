@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
                 .category(category)
                 .user(user)
                 .createdDate(LocalDate.now())
-                .status(Status.AWAIT)
+                .status(Status.CONFIRM)
                 .review((double) 0)
                 .photo(getPhotoUrl(productCreateDto.getPhoto()))
                 .build();
