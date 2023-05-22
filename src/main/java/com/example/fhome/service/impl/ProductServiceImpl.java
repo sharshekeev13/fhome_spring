@@ -87,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
                 .createdDate(LocalDate.now())
                 .status(Status.CONFIRM)
                 .review((double) 0)
+                .price(productCreateDto.getPrice())
                 .photo(getPhotoUrl(productCreateDto.getPhoto()))
                 .build();
         return productRepository.save(product);

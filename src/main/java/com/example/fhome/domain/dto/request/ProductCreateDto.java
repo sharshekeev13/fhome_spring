@@ -11,4 +11,5 @@ public class ProductCreateDto {
     Long categoryId;
     Long userId;
     MultipartFile photo;
+    Long price;
 }

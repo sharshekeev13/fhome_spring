@@ -38,6 +38,8 @@ public class Product {
 
     String photo;
 
+    Long price;
+
     double review;
 
 }
