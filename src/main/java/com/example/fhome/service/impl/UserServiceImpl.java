@@ -49,12 +49,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registration(UserRegistrationDto user) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        LocalDate birthday = LocalDate.parse(user.getBirthday(),formatter);
+        LocalDate birthday;
+        if (user.getBirthday() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+            birthday = LocalDate.parse(user.getBirthday(),formatter);
+        }else{
+            birthday = null;
+        }
+        String userPhotoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png";
+        if(user.getPhoto() != null){
+            userPhotoUrl = getPhotoUrl(user.getPhoto());
+        }
         User newUser = User.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .photo(getPhotoUrl(user.getPhoto()))
+                .photo(userPhotoUrl)
                 .fullName(user.getFullName())
                 .birthday(birthday)
                 .role(Role.USER)
