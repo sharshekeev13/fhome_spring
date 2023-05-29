@@ -9,9 +9,11 @@ import com.example.fhome.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class UserController {
 
     @Operation(summary = "Регистрация пользователя")
     @RequestMapping(path = "registration",method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<User> userRegistration(@ModelAttribute UserRegistrationDto userRegistrationDto){
+    public ResponseEntity<User> userRegistration(@ModelAttribute UserRegistrationDto userRegistrationDto, @RequestPart(value = "photo", required = false) MultipartFile file){
         return ResponseEntity.ok(userService.registration(userRegistrationDto));
     }
 

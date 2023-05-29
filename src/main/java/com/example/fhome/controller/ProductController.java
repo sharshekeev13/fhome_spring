@@ -2,6 +2,7 @@ package com.example.fhome.controller;
 
 import com.example.fhome.domain.dto.request.ProductCreateDto;
 import com.example.fhome.domain.dto.request.ProductUpdateDto;
+import com.example.fhome.domain.dto.response.ProductsDto;
 import com.example.fhome.domain.entity.Product;
 import com.example.fhome.service.impl.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +39,7 @@ public class ProductController {
 
     @Operation(summary = "Все продукты по страницам")
     @GetMapping()
-    public ResponseEntity<List<Product>> getProducts(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "0") Long category){
+    public ResponseEntity<ProductsDto> getProducts(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "0") Long category){
         return ResponseEntity.ok(productService.findAll(pageNo,category));
     }
 

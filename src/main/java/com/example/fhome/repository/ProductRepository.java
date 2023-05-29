@@ -19,5 +19,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findAllByStatus(Status status, Pageable paging);
     List<Product> findByUser(User user);
 
-    List<Product> findAllByCategoryAndStatus(Category category, Status status,Pageable paging);
+    Page<Product> findAllByCategoryAndStatus(Category category, Status status,Pageable paging);
 }

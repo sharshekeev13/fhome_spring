@@ -2,6 +2,7 @@ package com.example.fhome.service;
 
 import com.example.fhome.domain.dto.request.ProductCreateDto;
 import com.example.fhome.domain.dto.request.ProductUpdateDto;
+import com.example.fhome.domain.dto.response.ProductsDto;
 import com.example.fhome.domain.entity.Category;
 import com.example.fhome.domain.entity.Product;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<Product> findAll(Integer pageNo, Long reqCategory);
+    ProductsDto findAll(Integer pageNo, Long reqCategory);
 
     Product getById(Long id);
 

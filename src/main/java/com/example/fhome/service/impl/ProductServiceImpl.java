@@ -2,6 +2,7 @@ package com.example.fhome.service.impl;
 
 import com.example.fhome.domain.dto.request.ProductCreateDto;
 import com.example.fhome.domain.dto.request.ProductUpdateDto;
+import com.example.fhome.domain.dto.response.ProductsDto;
 import com.example.fhome.domain.entity.Category;
 import com.example.fhome.domain.entity.Product;
 import com.example.fhome.domain.entity.User;
@@ -16,11 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -39,23 +38,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAll(Integer pageNo, Long reqCategory) {
+    public ProductsDto findAll(Integer pageNo, Long reqCategory) {
         if(reqCategory == 0){
             Pageable paging = PageRequest.of(pageNo,20);
             Page<Product> pagedResult = productRepository.findAllByStatus(Status.CONFIRM,paging);
             if(pagedResult.hasContent()) {
-                return pagedResult.getContent();
+                return new ProductsDto(pagedResult.getTotalPages(),pagedResult.getContent());
             }else{
-                return new ArrayList<Product>();
+                return new ProductsDto(0,new ArrayList<Product>());
             }
         }else{
             Pageable paging = PageRequest.of(pageNo,20);
             Category category = checkCategory(reqCategory);
-            List<Product> pagedResult = productRepository.findAllByCategoryAndStatus(category,Status.CONFIRM,paging);
+            Page<Product> pagedResult = productRepository.findAllByCategoryAndStatus(category,Status.CONFIRM,paging);
             if(!pagedResult.isEmpty()) {
-                return pagedResult;
+                return new ProductsDto(pagedResult.getTotalPages(),pagedResult.getContent());
             }else{
-                return new ArrayList<Product>();
+                return new ProductsDto(0,new ArrayList<Product>());
             }
         }
     }

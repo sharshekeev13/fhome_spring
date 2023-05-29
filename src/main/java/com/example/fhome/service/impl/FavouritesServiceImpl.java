@@ -10,19 +10,24 @@ import com.example.fhome.repository.FavouritesRepository;
 import com.example.fhome.repository.ProductRepository;
 import com.example.fhome.repository.UserRepository;
 import com.example.fhome.service.FavouritesService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class FavouritesServiceImpl implements FavouritesService {
 
-    private FavouritesRepository favouritesRepository;
-    private ProductRepository productRepository;
-    private UserRepository userRepository;
+    private final FavouritesRepository favouritesRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    public FavouritesServiceImpl(FavouritesRepository favouritesRepository, ProductRepository productRepository, UserRepository userRepository) {
+        this.favouritesRepository = favouritesRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
+
 
     @Override
     public Favourites createFavourite(Long productId, Long userId) {
